@@ -1,0 +1,4 @@
+/* Compatibilidad: importamos el CSS administrativo existente para evitar 404s desde páginas antiguas */
+@import url('admin.css');
+
+/* Archivo de compatibilidad - no editar mucho aquí; editar `admin.css` si necesita cambios visuales. */

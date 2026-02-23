@@ -1,0 +1,35 @@
+# PHP/Composer
+vendor/
+composer.lock
+composer.phar
+
+# Environment
+.env
+.env.*
+
+# Logs and cache
+logs/
+storage/
+cache/
+*.log
+
+# Uploads and generated assets
+public/uploads/
+public/storage/
+uploads/
+
+# IDE/System
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Node (if present for tooling)
+node_modules/
+
+# Coverage and misc caches
+coverage/
+.phpunit.result.cache
+
+# Docker local data
+docker-data/

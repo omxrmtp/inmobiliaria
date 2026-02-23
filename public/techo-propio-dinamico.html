@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programa Techo Propio - DelgadoPropiedades</title>
+  <link rel="shortcut icon" href="images/propiedad.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/techo-propio.css">
+  
+  <style>
+    .proyectos-container {
+      padding: 60px 0;
+      background: #f8f9fa;
+    }
+    
+    .proyectos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .proyecto-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .proyecto-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .proyecto-imagen {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    
+    .proyecto-contenido {
+      padding: 25px;
+    }
+    
+    .proyecto-titulo {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #303030;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    
+    .proyecto-descripcion {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .proyecto-precio {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #FCBA00;
+      margin: 15px 0;
+    }
+    
+    .proyecto-ubicacion {
+      color: #666;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .proyecto-ubicacion i {
+      color: #FCBA00;
+    }
+    
+    .proyecto-estado {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .estado-DISPONIBLE {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .estado-RESERVADO {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .estado-VENDIDO {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .loading-container {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #FCBA00;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .no-proyectos {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 15px;
+      margin: 40px 0;
+    }
+    
+    .no-proyectos i {
+      font-size: 4rem;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+    
+    .proyecto-categoria {
+      display: inline-block;
+      background: #e9ecef;
+      color: #495057;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header (mismo del original) -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html" class="logo">
+          <img src="logo/propiedadedelgado.png" alt="TechoPropio Logo" class="header-image">
+        </a>
+      </div>
+      
+      <nav class="nav">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+          <li class="nav-item"><a href="proyectos.html" class="nav-link">Proyectos</a></li>
+          <li class="nav-item nav-dropdown">
+            <a href="#" class="nav-link nav-dropdown-toggle">
+              Nosotros <i class="fas fa-chevron-down"></i>
+            </a>
+            <div class="nav-dropdown-content">
+              <a href="team.html" class="nav-dropdown-item">Equipo</a>
+              <a href="otros-servicios.php" class="nav-dropdown-item">Otros Servicios</a>
+            </div>
+          </li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contacto</a></li>
+        </ul>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <a href="client-login.php" class="btn-login">
+            <i class="fas fa-user"></i> Portal Cliente
+          </a>
+        </div>
+      </nav>
+      
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="techo-propio-banner">
+    <div class="hero-content">
+      <div class="hero-buttons">
+        <a href="#pre-evaluation-form" class="btn btn-primary">
+          Realizar Pre-evaluación
+          <i class="fas fa-chevron-right btn-icon"></i>
+        </a>
+        <a href="#contacto" class="btn btn-secondary">
+          <i class="fas fa-headset btn-icon-left"></i>
+          Contactar Asesor
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verification Links Section -->
+  <section class="verification-links">
+    <div class="container">
+      <div class="verification-title">
+        <h2>Verificaciones - Techo Propio</h2>
+      </div>
+      <div class="verification-links-grid">
+        <a href="https://www.mivivienda.com.pe/PORTALWEB/usuario-busca-viviendas/estados-tramite.aspx" class="verification-link" target="_blank">
+          <i class="fas fa-search"></i>
+          <span>Verificar tu Estado de Postulación</span>
+          <small>Consulta el estado actual de tu postulación</small>
+        </a>
+        <a href="https://www.mivivienda.com.pe/PORTALWEB/usuario-busca-viviendas/apoyo-habitacional-previo.aspx" class="verification-link" target="_blank">
+          <i class="fas fa-check-circle"></i>
+          <span>Verifica Si ya accediste a Techo Propio</span>
+          <small>Consulta si ya has sido beneficiario anteriormente</small>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proyectos Dinámicos desde CRM -->
+  <section class="proyectos-container">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>Proyectos Disponibles - Techo Propio</h2>
+        <p>Encuentra tu vivienda ideal con el programa Techo Propio</p>
+      </div>
+      
+      <div id="proyectos-contenido">
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Cargando proyectos disponibles...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (agregar tu footer aquí) -->
+
+  <script>
+    // Cargar proyectos de Techo Propio
+    async function cargarProyectos() {
+      const contenedor = document.getElementById('proyectos-contenido');
+      
+      try {
+        const response = await fetch('/get_proyectos_tipo.php?tipo=techo_propio&limite=12');
+        const data = await response.json();
+        
+        if (!data.success) {
+          throw new Error(data.error || 'Error al cargar proyectos');
+        }
+        
+        if (data.proyectos.length === 0) {
+          contenedor.innerHTML = `
+            <div class="no-proyectos">
+              <i class="fas fa-home"></i>
+              <h3>No hay proyectos disponibles</h3>
+              <p>Actualmente no hay proyectos de Techo Propio disponibles. Vuelve pronto.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        // Renderizar proyectos
+        let html = '<div class="proyectos-grid">';
+        
+        data.proyectos.forEach(proyecto => {
+          html += `
+            <div class="proyecto-card">
+              <img src="${proyecto.imagen}" 
+                   alt="${proyecto.nombre}" 
+                   class="proyecto-imagen"
+                   onerror="this.src='img/placeholder-property.jpg'">
+              
+              <div class="proyecto-contenido">
+                ${proyecto.categoria ? `<span class="proyecto-categoria">${proyecto.categoria}</span>` : ''}
+                
+                <h3 class="proyecto-titulo">${proyecto.nombre}</h3>
+                
+                ${proyecto.descripcion ? `<p class="proyecto-descripcion">${proyecto.descripcion}</p>` : ''}
+                
+                <div class="proyecto-ubicacion">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>${proyecto.ubicacion || 'Ubicación no especificada'}</span>
+                </div>
+                
+                <div class="proyecto-precio">${proyecto.precio_formateado}</div>
+                
+                <span class="proyecto-estado estado-${proyecto.estado}">
+                  ${proyecto.estado}
+                </span>
+              </div>
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+        
+        // Agregar información de total
+        html += `
+          <div style="text-align: center; margin-top: 40px; color: #666;">
+            <p>Mostrando ${data.proyectos.length} de ${data.total} proyectos disponibles</p>
+          </div>
+        `;
+        
+        contenedor.innerHTML = html;
+        
+      } catch (error) {
+        console.error('Error:', error);
+        contenedor.innerHTML = `
+          <div class="no-proyectos">
+            <i class="fas fa-exclamation-circle" style="color: #dc3545;"></i>
+            <h3>Error al cargar proyectos</h3>
+            <p>${error.message}</p>
+            <button onclick="cargarProyectos()" class="btn btn-primary" style="margin-top: 20px;">
+              Reintentar
+            </button>
+          </div>
+        `;
+      }
+    }
+    
+    // Cargar al inicio
+    document.addEventListener('DOMContentLoaded', cargarProyectos);
+  </script>
+</body>
+</html>

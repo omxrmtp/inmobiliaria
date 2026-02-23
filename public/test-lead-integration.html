@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Integración Lead CRM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .header h1 { color: #2c3e50; margin-bottom: 10px; }
+        .header p { color: #666; font-size: 14px; }
+        .section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .section h2 { color: #2c3e50; font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .test-form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .form-group { grid-column: span 1; }
+        .form-group.full { grid-column: span 2; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 13px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); }
+        .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .radio-group label { display: flex; align-items: center; gap: 5px; margin-bottom: 0; }
+        .radio-group input[type="radio"] { margin: 0; }
+        .buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-primary:hover { background: #2980b9; }
+        .btn-primary:disabled { background: #bdc3c7; cursor: not-allowed; }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn-secondary:hover { background: #7f8c8d; }
+        .output { background: #ecf0f1; padding: 15px; border-radius: 4px; border-left: 4px solid #3498db; margin-top: 10px; font-family: 'Courier New', monospace; font-size: 12px; max-height: 300px; overflow-y: auto; }
+        .output.success { border-left-color: #27ae60; background: #d5f4e6; }
+        .output.error { border-left-color: #e74c3c; background: #fadbd8; }
+        .status { margin-top: 10px; padding: 10px; border-radius: 4px; font-size: 13px; }
+        .status.info { background: #d6eaf8; color: #1a365d; border-left: 4px solid #3498db; }
+        .status.success { background: #d5f4e6; color: #0b5345; border-left: 4px solid #27ae60; }
+        .status.error { background: #fadbd8; color: #5c2e2e; border-left: 4px solid #e74c3c; }
+        .test-steps { list-style: none; }
+        .test-steps li { padding: 8px 0; font-size: 14px; color: #555; }
+        .test-steps li:before { content: "→ "; color: #3498db; font-weight: 600; margin-right: 8px; }
+        .config-info { background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 15px; margin-bottom: 15px; font-size: 13px; }
+        .config-info strong { color: #d39e00; }
+        .debug-log { background: #2c3e50; color: #2ecc71; padding: 15px; border-radius: 4px; font-family: monospace; font-size: 12px; max-height: 400px; overflow-y: auto; margin-top: 10px; }
+        .log-entry { padding: 3px 0; border-bottom: 1px solid #34495e; }
+        .log-entry.error { color: #e74c3c; }
+        .log-entry.success { color: #27ae60; }
+        .log-entry.info { color: #3498db; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Test - Integración de Leads al CRM</h1>
+            <p>Prueba la integración del formulario de leads con el servidor CRM</p>
+        </div>
+
+        <div class="section">
+            <h2>📋 Configuración Detectada</h2>
+            <div class="config-info">
+                <strong>API Base URL:</strong> <span id="api-base">Detectando...</span><br>
+                <strong>Estado:</strong> <span id="api-status">Verificando...</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✉️ Formulario de Prueba</h2>
+            <form id="test-form">
+                <div class="test-form">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" id="nombre" value="Juan" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido:</label>
+                        <input type="text" id="apellido" value="Pérez" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="email" value="test@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono:</label>
+                        <input type="tel" id="telefono" value="948734449" required>
+                    </div>
+                    <div class="form-group full">
+                        <label>Interés:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="interes" value="Techo Propio" required> Techo Propio</label>
+                            <label><input type="radio" name="interes" value="Crédito MiVivienda"> Crédito MiVivienda</label>
+                            <label><input type="radio" name="interes" value="Comprador"> Comprador</label>
+                            <label><input type="radio" name="interes" value="Vendedor"> Vendedor</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Origen:</label>
+                        <select id="origen">
+                            <option value="Página Web">Página Web</option>
+                            <option value="WhatsApp">WhatsApp</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Google">Google</option>
+                            <option value="Referencia">Referencia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tag/Etiqueta:</label>
+                        <input type="text" id="tag" placeholder="Ej: test, urgente">
+                    </div>
+                    <div class="form-group full">
+                        <label>Mensaje (Opcional):</label>
+                        <textarea id="mensaje" placeholder="Comentarios adicionales...">Mensaje de prueba desde test-lead-integration.html</textarea>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn-secondary" id="btn-clear">Limpiar</button>
+                    <button type="submit" class="btn-primary" id="btn-submit">Enviar Lead</button>
+                </div>
+            </form>
+
+            <div id="output" style="display: none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Respuesta del Servidor</h2>
+            <div id="debug-log" class="debug-log">
+                <div class="log-entry info">Esperando envío de formulario...</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✔️ Checklist de Pruebas</h2>
+            <ul class="test-steps">
+                <li>Verifica que el API Base URL sea correcto (debe ser http://localhost:5000/api en desarrollo)</li>
+                <li>Completa el formulario con datos de prueba</li>
+                <li>Haz clic en "Enviar Lead"</li>
+                <li>Verifica el log de depuración para errores</li>
+                <li>Accede al CRM en http://localhost:3000 para confirmar que el lead aparece</li>
+                <li>Verifica que el lead tenga el estado "NUEVO" y esté asignado a un usuario</li>
+                <li>Confirma que las etiquetas (interes) se aplicaron correctamente</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="crm-config.js"></script>
+    <script>
+        // Configuración de API
+        window.CRM_API_BASE = window.CRM_API_BASE || window.APP_CONFIG.api.apiBase;
+
+        const form = document.getElementById('test-form');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnClear = document.getElementById('btn-clear');
+        const output = document.getElementById('output');
+        const debugLog = document.getElementById('debug-log');
+        const apiBaseEl = document.getElementById('api-base');
+        const apiStatusEl = document.getElementById('api-status');
+
+        // Setup API display
+        apiBaseEl.textContent = window.CRM_API_BASE;
+
+        // Check API connectivity
+        checkAPIConnectivity();
+
+        async function checkAPIConnectivity() {
+            try {
+                const response = await fetch(window.CRM_API_BASE.replace(/\/api$/, '/health'), {
+                    method: 'GET',
+                    timeout: 3000
+                });
+                if (response.ok) {
+                    apiStatusEl.innerHTML = '<span style="color: #27ae60;">✓ Conectado</span>';
+                } else {
+                    apiStatusEl.innerHTML = '<span style="color: #e74c3c;">✗ Error: ' + response.status + '</span>';
+                }
+            } catch (error) {
+                apiStatusEl.innerHTML = '<span style="color: #e74c3c;">✗ No conecta: ' + error.message + '</span>';
+            }
+        }
+
+        function addLog(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = '[' + new Date().toLocaleTimeString() + '] ' + message;
+            debugLog.appendChild(entry);
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            debugLog.innerHTML = '';
+
+            const nombre = document.getElementById('nombre').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const interesEl = form.querySelector('input[name="interes"]:checked');
+            const interes = interesEl ? interesEl.value : '';
+            const origen = document.getElementById('origen').value;
+            const mensaje = document.getElementById('mensaje').value.trim();
+
+            if (!nombre || !apellido || !email || !telefono || !interes) {
+                addLog('❌ Validación fallida: Campos requeridos incompletos', 'error');
+                return;
+            }
+
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Enviando...';
+            addLog('🚀 Iniciando envío de lead...', 'info');
+            addLog(`📋 Datos: ${nombre} ${apellido} | ${email} | ${telefono}`, 'info');
+
+            try {
+                const url = window.CRM_API_BASE.replace(/\/$/, '') + '/public/lead';
+                addLog(`📤 Enviando POST a: ${url}`, 'info');
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        apellido: apellido,
+                        email: email,
+                        telefono: telefono,
+                        interes: interes,
+                        origen: origen,
+                        mensaje: mensaje
+                    })
+                });
+
+                addLog(`📨 Respuesta recibida: ${response.status} ${response.statusText}`, 'info');
+
+                const data = await response.json();
+                addLog(`📦 Datos: ${JSON.stringify(data, null, 2)}`, 'info');
+
+                if (data.exito) {
+                    addLog('✅ Lead guardado exitosamente en CRM', 'success');
+                    addLog(`Lead ID: ${data.contacto?.id || 'N/A'}`, 'success');
+                    output.className = 'output success';
+                    output.innerHTML = `<strong>✅ Success!</strong><br>El lead fue guardado correctamente.<br>ID: ${data.contacto?.id || 'N/A'}<br>Mensaje: ${data.mensaje}`;
+                    output.style.display = 'block';
+                    form.reset();
+                } else {
+                    addLog(`❌ Error: ${data.mensaje}`, 'error');
+                    output.className = 'output error';
+                    output.innerHTML = `<strong>❌ Error:</strong><br>${data.mensaje}`;
+                    output.style.display = 'block';
+                }
+            } catch (error) {
+                addLog(`❌ Error de conexión: ${error.message}`, 'error');
+                output.className = 'output error';
+                output.innerHTML = `<strong>❌ Error de conexión:</strong><br>${error.message}<br><br>Verifica que:<br>1. El servidor CRM está ejecutándose en ${window.CRM_API_BASE}<br>2. Las bases de datos están inicializadas<br>3. No hay problemas de CORS`;
+                output.style.display = 'block';
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Enviar Lead';
+            }
+        });
+
+        btnClear.addEventListener('click', () => {
+            form.reset();
+            output.style.display = 'none';
+        });
+
+        // Log inicial
+        addLog('🟢 Test de integración de leads iniciado', 'success');
+        addLog(`API Base: ${window.CRM_API_BASE}`, 'info');
+        addLog('Completa el formulario y envía para probar la integración', 'info');
+    </script>
+</body>
+</html>

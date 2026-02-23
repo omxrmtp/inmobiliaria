@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilitaciones - DelgadoPropiedades</title>
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="images/propiedad.png" type="image/png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/habilitaciones.css">
+</head>
+<body data-etiqueta-filtro="habilitaciones">
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="logo/propiedadedelgado.png" alt="TechoPropio Logo" class="header-image">
+                </a>
+            </div>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+                    <li class="nav-item"><a href="proyectos.html" class="nav-link">Proyectos</a></li>
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            Nosotros <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="nav-dropdown-content">
+                            <a href="team.html" class="nav-dropdown-item">Equipo</a>
+                            <a href="otros-servicios.php" class="nav-dropdown-item">Otros Servicios</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">Contacto</a></li>
+                </ul>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <a href="client-login.php" class="btn-login">
+                        <i class="fas fa-user"></i> Portal Cliente
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Proyectos Disponibles Section -->
+    <section class="properties-section" style="padding: 60px 0; background: #f9fafb;">
+        <div class="container">
+            <div class="properties-header">
+                <div class="properties-count">
+                    <h2>Proyectos de Habilitaciones</h2>
+                    <p>Mostrando <span id="properties-count">0</span> proyectos</p>
+                </div>
+                <div class="properties-sort">
+                    <label for="sort-by">Ordenar por:</label>
+                    <select id="sort-by">
+                        <option value="price-asc">Precio: Menor a Mayor</option>
+                        <option value="price-desc">Precio: Mayor a Menor</option>
+                        <option value="date-desc">Más Recientes</option>
+                        <option value="date-asc">Más Antiguos</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="properties-grid" class="properties-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin: 40px 0;">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Cargando proyectos...</p>
+                </div>
+            </div>
+            
+            <div class="pagination" id="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 40px; flex-wrap: wrap;"></div>
+        </div>
+    </section>
+
+     <!-- Footer -->
+     <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <i class="fas fa-building footer-logo-icon"></i>
+                        <h3>DelgadoPropiedades</h3>
+                    </div>
+                    <p class="footer-description">
+                        Ofrecemos las mejores propiedades con asesoramiento personalizado para que encuentres el hogar de tus sueños.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://web.facebook.com/MDelgadoPropiedades" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/delgado.propiedades" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@delgado_propiedades" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://wa.me/51948734448" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+   
+                
+                <div class="footer-links-container">
+                    <h4 class="footer-title">Servicios</h4>
+                    <ul class="footer-links">
+                        <li><a href="properties.html"><i class="fas fa-chevron-right"></i> Compra de propiedades</a></li>
+                        <li><a href="properties.html"><i class="fas fa-chevron-right"></i> Venta de propiedades</a></li>
+                        <li><a href="credito.html"><i class="fas fa-chevron-right"></i> Credito MiVivienda</a></li>
+                        <li><a href="techo-propio.html"><i class="fas fa-chevron-right"></i> Programa Techo Propio</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4 class="footer-title">Contáctanos</h4>
+                    <ul class="footer-contact-list">
+                      <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Mariscal Nieto 480, Centro Comercial Boulevard Interior C1-C2 Segundo Piso</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+51 948 734 448</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>inmobiliaria.dpropiedades@gmail.com</span>
+                      </li>
+                      <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Lun - Sab: 9 AM - 5 PM</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> DelgadoPropiedades. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+  <!-- Template para las tarjetas de proyectos Habilitaciones -->
+  <template id="property-card-template">
+    <div class="property-card" data-id="" data-type="">
+      <div class="property-image">
+        <img src="/placeholder.svg" alt="">
+        <span class="property-tag"></span>
+      </div>
+      <div class="property-info">
+        <h3 class="property-title"></h3>
+        <div class="property-location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span></span>
+        </div>
+        <div class="property-price"></div>
+        <div class="property-buttons">
+          <button class="btn btn-primary btn-view-details" data-property-id="">Contactar</button>
+          <button class="btn btn-outline btn-view-modal" data-property-id="">Ver más</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Modal de Detalles de Propiedad -->
+  <div id="property-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div id="modal-body">
+        <!-- Se llenará dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+<script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+
+    <script src="js/main.js"></script>
+    <script src="js/habilitaciones.js"></script>
+</body>
+</html>

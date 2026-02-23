@@ -1,0 +1,29 @@
+services:
+  web-php:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: pgdp-web-php
+    restart: unless-stopped
+    environment:
+      # Conexión a la BD del CRM
+      DB_HOST: ${DB_HOST:-localhost}
+      DB_NAME: ${DB_NAME:-crm_delgado}
+      DB_USER: ${DB_USER:-root}
+      DB_PASS: ${DB_PASS:-00617}
+      # Conexión a la API del CRM (desde dentro del Docker)
+      CRM_API_BASE: ${CRM_API_BASE:-http://host.docker.internal:5000/api}
+      ENVIRONMENT: development
+    ports:
+      - "${WEB_PHP_PORT:-8081}:80"
+    volumes:
+      # Montar proyecto completo para hot reload
+      - .:/var/www/html
+      # Uploads persistente
+      - ./uploads:/var/www/html/uploads
+      # Public uploads (imágenes del proyecto)
+      - ./public/uploads:/var/www/html/public/uploads
+
+networks:
+  crm-shared-network:
+    external: true

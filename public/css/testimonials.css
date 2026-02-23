@@ -1,0 +1,665 @@
+/* Testimonials Section */
+.testimonials-section {
+  padding: 40px 0;
+  background-color: var(--text-white);
+}
+
+.testimonials-header {
+  background-color: #f5f5f7;
+  padding: 25px 0;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.title-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.testimonials-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #303030;
+  font-weight: 700;
+}
+
+.testimonials-header p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* Botón de agregar testimonio */
+.add-testimonial-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+  margin-top: 5px;
+}
+
+.btn-add-testimonial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  background-color: #fcba00;
+  color: #333;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  text-decoration: none;
+  width: 220px;
+  letter-spacing: 0.5px;
+}
+
+.btn-add-testimonial:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.btn-add-testimonial i {
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+
+.filter-title {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #303030;
+  font-size: 1rem;
+}
+
+.filter-container {
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  color: #303030;
+  font-size: 0.85rem;
+  min-width: 100px;
+}
+
+.filter-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-btn.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: 30px;
+}
+
+.testimonial-card {
+  background-color: var(--text-white);
+  border-radius: 6px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.testimonial-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+}
+
+.author-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid #fcba00;
+}
+
+.author-info h3 {
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.1rem;
+  color: #303030;
+}
+
+.author-info p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.testimonial-rating {
+  color: #fcba00;
+}
+
+.testimonial-content {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.testimonial-media {
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.media-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Estilos para videos embebidos */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* Proporción 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Estilos para enlaces de redes sociales */
+.social-video-link {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0 20px;
+}
+
+.social-video-link a {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  border-radius: 30px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.social-video-link a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.social-video-link a i {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.social-video-link a i.fa-tiktok {
+  color: #000;
+}
+
+.social-video-link a i.fa-instagram {
+  color: #e1306c;
+}
+
+.social-video-link a span {
+  font-size: 0.9rem;
+}
+
+.video-fallback {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.social-link-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  border-radius: 30px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.social-link-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  background-color: #eaeaea;
+}
+
+.social-link-button i {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.social-link-button i.fa-tiktok {
+  color: #000;
+}
+
+.social-link-button i.fa-instagram {
+  background: -webkit-linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.video-source {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.video-source i {
+  margin-right: 5px;
+  font-size: 1rem;
+}
+
+.video-source.tiktok i {
+  color: #000;
+}
+
+.video-source.instagram i {
+  color: #e1306c;
+}
+
+.testimonial-date {
+  text-align: right;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Testimonial Form */
+.testimonial-form-section {
+  padding: var(--spacing-xxl) 0;
+  background-color: #f9f9f9;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+/* Animación de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Títulos y separador */
+.section-header h2 {
+  color: #fcba00;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.separator {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.separator span {
+  width: 50px;
+  height: 4px;
+  background-color: #fcba00;
+  display: block;
+  border-radius: 2px;
+}
+
+.testimonial-form-section h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  color: #303030;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Campos de entrada */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+/* Efecto al enfocar */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #fcba00;
+  outline: none;
+}
+
+/* Botón de envío */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #fcba00;
+  color: #303030;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #e0a800;
+}
+
+/* Rating system */
+.rating-select {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating label {
+  cursor: pointer;
+  color: #e0e0e0;
+  font-size: 1.5rem;
+  padding: 0 var(--spacing-xs);
+  transition: var(--transition);
+}
+
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked ~ label {
+  color: #fcba00;
+}
+
+.help-text {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: var(--spacing-xs);
+}
+
+/* Estilos para inputs de archivos */
+.file-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input-wrapper input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-input-label {
+  display: block;
+  padding: 10px;
+  background-color: #fcba00;
+  color: #303030;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.file-input-label:hover {
+  background-color: #e0a800;
+}
+
+.file-name {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Estilos para el campo de URL de video */
+.video-url-input {
+  padding-right: 40px !important;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+}
+
+.social-media-icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.social-media-icons i {
+  font-size: 1.5rem;
+}
+
+.social-media-icons .fa-tiktok {
+  color: #000;
+}
+
+.social-media-icons .fa-instagram {
+  color: #e1306c;
+}
+
+/* Navegación de testimonios */
+.testimonial-navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+}
+
+#load-more-testimonials {
+  padding: 10px 25px;
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.back-to-testimonials {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  background-color: #f5f5f5;
+  color: #303030;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-decoration: none;
+}
+
+.back-to-testimonials:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.back-to-testimonials i {
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  color: #303030;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  .add-testimonial-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .testimonial-form-section {
+    max-width: 90%;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .testimonial-card {
+    padding: var(--spacing);
+  }
+
+  .testimonial-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .testimonial-rating {
+    margin-top: var(--spacing-sm);
+  }
+
+  .author-image {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .social-video-link a {
+    padding: 8px 15px;
+  }
+  
+  .social-video-link a i {
+    font-size: 1.2rem;
+  }
+  
+  .social-video-link a span {
+    font-size: 0.8rem;
+  }
+}

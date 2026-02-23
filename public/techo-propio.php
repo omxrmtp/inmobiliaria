@@ -1,0 +1,461 @@
+<?php $page = 'techo-propio'; ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programa Techo Propio - DelgadoPropiedades</title>
+  <link rel="shortcut icon" href="images/propiedad.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Mantener las rutas originales de CSS -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/techo-propio.css">
+</head>
+<body data-etiqueta-filtro="techo propio">
+  <?php include 'includes/navbar.php'; ?>
+
+  <!-- Hero Banner -->
+  <section class="techo-propio-banner">
+    <div class="hero-content">
+        <div class="hero-buttons">
+        <a href="#pre-evaluation-form" class="btn btn-primary">
+          Realizar Pre-evaluación
+          <i class="fas fa-chevron-right btn-icon"></i>
+        </a>
+        <a href="#contacto" class="btn btn-secondary">
+          <i class="fas fa-headset btn-icon-left"></i>
+          Contactar Asesor
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verification Links Section -->
+  <section class="verification-links">
+    <div class="container">
+      <div class="verification-title">
+        <h2>Verificaciones - Techo Propio</h2>
+      </div>
+      <div class="verification-links-grid">
+        <a href="https://www.mivivienda.com.pe/PORTALWEB/usuario-busca-viviendas/estados-tramite.aspx" class="verification-link" target="_blank">
+          <i class="fas fa-search"></i>
+          <span>Verificar tu Estado de Postulación</span>
+          <small>Consulta el estado actual de tu postulación</small>
+        </a>
+        <a href="https://www.mivivienda.com.pe/PORTALWEB/usuario-busca-viviendas/apoyo-habitacional-previo.aspx" class="verification-link" target="_blank">
+          <i class="fas fa-check-circle"></i>
+          <span>Verifica Si ya accediste a Techo Propio</span>
+          <small>Consulta si ya has sido beneficiario anteriormente</small>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proyectos Disponibles Section - MOVED TO TOP -->
+  <section class="properties-section" style="padding: 60px 0; background: #f9fafb;">
+    <div class="container">
+      <div class="properties-header">
+        <div class="properties-count">
+          <h2>Proyectos Disponibles - Techo Propio</h2>
+          <p>Mostrando <span id="properties-count">0</span> proyectos</p>
+        </div>
+        <div class="properties-sort">
+          <label for="sort-by">Ordenar por:</label>
+          <select id="sort-by">
+            <option value="price-asc">Precio: Menor a Mayor</option>
+            <option value="price-desc">Precio: Mayor a Menor</option>
+            <option value="date-desc">Más Recientes</option>
+            <option value="date-asc">Más Antiguos</option>
+          </select>
+        </div>
+      </div>
+      
+      <div id="properties-grid" class="properties-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin: 40px 0;">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Cargando proyectos...</p>
+        </div>
+      </div>
+      
+      <div class="pagination" id="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 40px; flex-wrap: wrap;"></div>
+    </div>
+  </section>
+
+  <!-- Main Content Section -->
+  <section class="techo-propio-section">
+    <div class="container">
+      <div class="techo-propio-grid">
+        <div class="techo-propio-content">
+          <div class="section-header">
+            <h2>¿Qué es Techo Propio?</h2>
+            <div class="separator"></div>
+          </div>
+          <p>El programa Techo Propio es una iniciativa del gobierno peruano que facilita la adquisición, construcción o mejoramiento de viviendas a familias de bajos recursos económicos.</p>
+          <p>A través del Bono Familiar Habitacional (BFH), el Estado otorga un subsidio directo no reembolsable que cubre una parte del valor de la vivienda.</p>
+
+          <!-- Pregunta sobre requisitos para acceder a una vivienda -->
+          <div id="pre-evaluacion" class="requisitos-acceso">
+            <h3>¿Qué necesito saber para acceder a una nueva vivienda con el programa Techo Propio?</h3>
+            <ol class="numbered-list">
+              <li>Cumplir con los requisitos del programa (ser mayor de edad, conformar una familia, no tener otra vivienda, etc.)</li>
+              <li>Contar con el ahorro mínimo requerido según la modalidad</li>
+              <li>Elegir un proyecto inmobiliario o Entidad Técnica autorizada</li>
+              <li>Presentar la documentación completa</li>
+              <li>Contactar a un asesor para verificación de requisitos</li>
+            </ol>
+          </div>
+
+          <h2>Modalidades del programa</h2>
+          <div class="modality-cards">
+            <div class="modality-card">
+              <div class="modality-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <h4>Adquisición de Vivienda Nueva (AVN)</h4>
+              <p>Para familias que desean comprar una vivienda nueva en un proyecto habitacional certificado por el programa.</p>
+            </div>
+            <div class="modality-card">
+              <div class="modality-icon">
+                <i class="fas fa-hammer"></i>
+              </div>
+              <h4>Construcción en Sitio Propio (CSP)</h4>
+              <p>Para familias que poseen un terreno y desean construir su vivienda con apoyo del programa.</p>
+            </div>
+            <div class="modality-card">
+              <div class="modality-icon">
+                <i class="fas fa-tools"></i>
+              </div>
+              <h4>Mejoramiento de Vivienda (MV)</h4>
+              <p>Para familias que ya tienen una vivienda pero necesitan mejorarla para tener mejores condiciones.</p>
+            </div>
+          </div>
+
+          <h2>Requisitos generales</h2>
+          <div class="requirements">
+            <ul class="requirement-list">
+              <li class="requirement-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Conformar una familia (mínimo una persona)</span>
+              </li>
+              <li class="requirement-item">
+                <i class="fas fa-check-circle"></i>
+                <span>No haber recibido apoyo habitacional previo del Estado</span>
+              </li>
+              <li class="requirement-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Ser mayor de edad</span>
+              </li>
+              <li class="requirement-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Ingresos familiares mensuales no mayores a S/ 3,715 para comprar y S/ 2,706 para construir o mejorar</span>
+              </li>
+              <li class="requirement-item">
+                <i class="fas fa-check-circle"></i>
+                <span>No tener otra vivienda a nivel nacional</span>
+              </li>
+            </ul>
+          </div>
+ <!-- Pre-evaluación -->
+           
+ <div id="pre-evaluation-form">
+            
+  <h2>¿Quieres saber si eres elegible?</h2>
+  
+    <h4>Preevaluación</h4>
+    <p>Responde estas preguntas para saber si calificas al programa Techo Propio</p>
+    
+    <div class="question-container active" id="question-1">
+      <div class="question">
+        <h4>1.- ¿Tienes propiedad de uso vivienda inscrito en SUNARP?</h4>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="propiedad" value="no"> No
+          </label>
+          <label>
+            <input type="radio" name="propiedad" value="si"> Sí
+          </label>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <div></div>
+        <button class="btn btn-primary btn-next" data-question="1">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="question-container" id="question-2">
+      <div class="question">
+        <h4>2.- ¿Generas un ingreso mayor a S/ 3,715?</h4>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="ingresos" value="no"> No
+          </label>
+          <label>
+            <input type="radio" name="ingresos" value="si"> Sí
+          </label>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button class="btn btn-outline btn-prev" data-question="2">Anterior</button>
+        <button class="btn btn-primary btn-next" data-question="2">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="question-container" id="question-3">
+      <div class="question">
+        <h4>3.- ¿Has recibido apoyo habitacional de Techo Propio/Banco de Materiales?</h4>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="apoyo" value="no"> No
+          </label>
+          <label>
+            <input type="radio" name="apoyo" value="si"> Sí
+          </label>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button class="btn btn-outline btn-prev" data-question="3">Anterior</button>
+        <button class="btn btn-primary btn-next" data-question="3">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="question-container" id="question-4">
+      <div class="question">
+        <h4>4.- ¿Cuentas con carga familiar que cumplan con los anteriores requisitos?</h4>
+        <p class="question-detail">Hermano/a / Medio Hermano/a, Papá, Mamá, Abuelo/a, Pareja o Esposo/a</p>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="familia" value="si"> Sí
+          </label>
+          <label>
+            <input type="radio" name="familia" value="no"> No
+          </label>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button class="btn btn-outline btn-prev" data-question="4">Anterior</button>
+        <button class="btn btn-primary btn-next" data-question="4">Siguiente</button>
+      </div>
+    </div>
+
+    <div class="question-container" id="question-5">
+      <div class="question">
+        <h4>5.- ¿Cuentas con un ahorro mínimo de 2 mil a 3 mil soles?</h4>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="ahorro" value="si"> Sí
+          </label>
+          <label>
+            <input type="radio" name="ahorro" value="no"> No
+          </label>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button class="btn btn-outline btn-prev" data-question="5">Anterior</button>
+        <button class="btn btn-primary btn-result">Ver Resultado</button>
+      </div>
+    </div>
+
+    <!-- Resultado Positivo -->
+    <div class="result-container" id="result-success">
+      <div class="result-header eligible">
+        <i class="fas fa-check-circle"></i>
+        <h3>¡Felicidades!</h3>
+        <p>Estarías calificando al bono de Techo Propio - Adquisición de Vivienda Nueva</p>
+      </div>
+      
+      <!-- Formulario de verificación (solo aparece en resultado positivo) -->
+      <div class="contact-form">
+        <h4>Déjanos tus datos para verificación de los requisitos pre-evaluados</h4>
+        <form id="contact-form" action="process_eligibility.php" method="POST">
+          <input type="hidden" name="pre_evaluation_result" value="eligible">
+          <div class="form-group">
+            <label for="full_name">Nombres y Apellidos</label>
+            <input type="text" id="full_name" name="full_name" placeholder="Ingresa tu nombre completo" required>
+          </div>
+          <div class="form-group">
+            <label for="city">Ciudad</label>
+            <input type="text" id="city" name="city" placeholder="¿En qué ciudad vives?" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Teléfono</label>
+            <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" required>
+          </div>
+          <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Enviar datos</button>
+            <a href="https://wa.me/51948734448" class="btn btn-whatsapp btn-whatsapp-link">Contactar por WhatsApp</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+            <!-- Resultado Negativo -->
+            <div class="result-container" id="result-failure">
+              <div class="result-header not-eligible">
+                <i class="fas fa-times-circle"></i>
+                <h3>Lo sentimos</h3>
+                <p>Según tus respuestas, es posible que no califiques para el programa Techo Propio en este momento.</p>
+              </div>
+              <p>Te recomendamos contactar a uno de nuestros asesores para explorar otras opciones disponibles.</p>
+              
+              <!-- Formulario de contacto en resultado negativo -->
+              <div class="contact-form-container">
+                <h4>Completa tus datos para recibir más información</h4>
+                <form id="contact-form-failure" class="contact-form">
+                  <div class="form-group">
+                    <label for="full_name_neg">Nombre completo</label>
+                    <input type="text" id="full_name_neg" name="full_name" placeholder="Ingresa tu nombre completo" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="phone_neg">Teléfono</label>
+                    <input type="tel" id="phone_neg" name="phone" placeholder="Ingresa tu número de teléfono" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="email_neg">Correo electrónico (opcional)</label>
+                    <input type="email" id="email_neg" name="email" placeholder="Ingresa tu correo electrónico">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="city_neg">Ciudad</label>
+                    <input type="text" id="city_neg" name="city" placeholder="Ingresa tu ciudad" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="message_neg">Mensaje (opcional)</label>
+                    <textarea id="message_neg" name="message" placeholder="Escribe tu mensaje o consulta"></textarea>
+                  </div>
+                  
+                  <input type="hidden" name="pre_evaluation_result" value="not_eligible">
+                  <div class="form-buttons">
+                    <button type="button" class="btn btn-outline btn-retry">Volver a intentar</button>
+                    <button type="submit" class="btn btn-primary">Enviar información</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <h2>Preguntas frecuentes</h2>
+          <div class="faq-section">
+            <div class="accordion">
+              <div class="accordion-item">
+                <div class="accordion-header" data-accordion="1">
+                  ¿Qué modalidades ofrece el programa Techo Propio?
+                </div>
+                <div class="accordion-content" id="accordion-1">
+                  <p>El programa Techo Propio ofrece tres modalidades para ayudar a las familias a acceder a una vivienda digna:</p>
+                  <ul>
+                    <li><strong>Adquisición de Vivienda Nueva:</strong> Permite comprar una vivienda de interés social con ayuda del Bono Familiar Habitacional.</li>
+                    <li><strong>Construcción en Sitio Propio:</strong> Brinda apoyo económico para construir una vivienda en un terreno propio inscrito en Registros Públicos.</li>
+                    <li><strong>Mejoramiento de Vivienda:</strong> Otorga un bono para mejorar una vivienda en condiciones inadecuadas.</li>
+                  </ul>
+                  <p class="mt-2 text-sm italic">Nota: Cada modalidad tiene requisitos específicos. Consulta con un asesor para obtener más detalles.</p>
+                </div>
+                
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" data-accordion="2">
+                  ¿Cómo puedo postular al programa?
+                </div>
+                <div class="accordion-content" id="accordion-2">
+                  <p>Para postular al programa Techo Propio, debes seguir estos pasos:</p>
+                  <ol>
+                    <li>Verificar que cumples con los requisitos</li>
+                    <li>Elegir un centro autorizado</li>
+                    <li>Contar con el DNI  del titular y carga familiar</li>
+                    <li>Recibir la evaluación por el centro autorizado </li>
+                    <li>Contar con ahorro mínimo entre 2000 a 3000 soles</li>
+                    <li>Firmar tu formulario de inscripción </li>
+                    
+                  </ol>
+                  <p>Nuestros asesores pueden guiarte en todo el proceso.</p> 
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header" data-accordion="3">
+                  ¿Qué documentos necesito para postular?
+                </div>
+                <div class="accordion-content" id="accordion-3">
+                  <ul>
+                    <li>DNI del grupo familiar (dos personas: titular y carga familiar)</li>
+                    <li>Ahorro mínimo requerido según la modalidad</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="techo-propio-sidebar">
+          <div class="sidebar-card" id="contacto">
+            <h3>Contacta a un asesor</h3>
+            <p>Resuelve todas tus dudas sobre el programa Techo Propio</p>
+            <div class="contact-advisor">
+              <div class="advisor-icon">
+                <i class="fas fa-headset"></i>
+              </div>
+              <div class="advisor-info">
+                <h4>Asesoría personalizada</h4>
+                <p>Lunes a Sábado 9am - 5pm</p>
+              </div>
+            </div>
+            <a href="contact.php?subject=Techo%20Propio" class="btn btn-primary btn-block">Agendar una cita</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="overlay"></div>
+    <div class="cta-content">
+      <h2>¿Listo para dar el primer paso hacia tu casa propia?</h2>
+      <p>Nuestros asesores están listos para ayudarte a conseguir tu vivienda a través del programa Techo Propio</p>
+      <div class="cta-buttons">
+        <a href="#pre-evaluation-form" class="btn btn-primary">Realizar Pre-evaluación</a>
+        <a href="#contacto" class="btn btn-secondary">Contactar Asesor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Template para las tarjetas de proyectos Techo Propio -->
+  <template id="property-card-template">
+    <div class="property-card" data-id="" data-type="">
+      <div class="property-image">
+        <img src="/placeholder.svg" alt="">
+        <span class="property-tag"></span>
+      </div>
+      <div class="property-info">
+        <h3 class="property-title"></h3>
+        <div class="property-location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span></span>
+        </div>
+        <div class="property-price"></div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Modal de Detalles de Propiedad -->
+  <div id="property-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div id="modal-body">
+        <!-- Se llenará dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <?php include 'includes/footer.php'; ?>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.js"></script>
+  <script src="js/techo-propio.js"></script>
+  <script src="js/properties.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<?php $page = 'proyectos'; ?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proyectos - DelgadoPropiedades</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="shortcut icon" href="images/propiedad.png" type="image/png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <style>
+    :root {
+      --ios-bg: #f4f5f7;
+      --ios-card: #ffffff;
+      --ios-shadow: 0 8px 24px rgba(15, 23, 42, .08), 0 1px 0 rgba(15, 23, 42, .04);
+      --ios-shadow-hover: 0 14px 40px rgba(15, 23, 42, .12), 0 2px 0 rgba(15, 23, 42, .05);
+      --ios-radius: 20px;
+      --ios-radius-lg: 24px;
+      --ios-text: #0f172a;
+      --ios-sub: #64748b;
+      --ios-primary: #111;
+      --brand: #fcba00;
+    }
+
+    body {
+      background: radial-gradient(1200px 600px at 10% -10%, #ffffff 20%, #f6f7fb 60%, #eef1f6 100%);
+    }
+
+    .page-hero {
+      padding: 120px 0 40px;
+      background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+      color: #fff;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+    }
+
+    .page-hero .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .page-hero h1 {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff !important;
+    }
+
+    .breadcrumbs {
+      color: #fff;
+      font-size: 0.92rem;
+      opacity: .9;
+    }
+
+    .projects-grid {
+      padding: 40px 0 80px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--ios-card);
+      border: 1px solid rgba(15, 23, 42, .06);
+      border-radius: var(--ios-radius-lg);
+      box-shadow: var(--ios-shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .25s ease, box-shadow .25s ease;
+      backdrop-filter: saturate(120%) blur(2px);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--ios-shadow-hover);
+    }
+
+    .card-media {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      background: #f6f7f9;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.02);
+      transition: transform .35s ease;
+    }
+
+    .card:hover .card-media img {
+      transform: scale(1.06);
+    }
+
+    .card-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(15, 23, 42, .06);
+    }
+
+    .card-header i {
+      color: #111;
+      background: var(--brand);
+      padding: 9px;
+      border-radius: 12px;
+      box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .3);
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-weight: 700;
+      color: var(--ios-text);
+      letter-spacing: -.01em;
+      flex: 1;
+      min-width: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      font-size: 1.05rem;
+    }
+
+    .card-body {
+      padding: 16px 18px;
+      color: var(--ios-sub);
+      flex: 1;
+      line-height: 1.6;
+    }
+
+    .card-actions {
+      padding: 16px 18px 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid rgba(17, 17, 17, .8);
+      color: #111;
+      background: linear-gradient(180deg, #fff 0%, #f6f7f9 100%);
+      box-shadow: 0 2px 0 rgba(17, 17, 17, .25), 0 8px 20px rgba(15, 23, 42, .08);
+      transition: all .2s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(180deg, #111 0%, #111 100%);
+      color: #fff;
+      border-color: #111;
+      box-shadow: 0 2px 0 rgba(17, 17, 17, .35), 0 12px 24px rgba(15, 23, 42, .14);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 0 rgba(17, 17, 17, .35), 0 8px 16px rgba(15, 23, 42, .12);
+    }
+
+    @media (min-width: 1500px) {
+      .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card-header h3 {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .page-hero {
+        padding-top: 100px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-hero {
+        padding-top: 90px;
+      }
+
+      .card-header h3 {
+        font-size: .98rem;
+      }
+
+      .card-header i {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <?php include 'includes/navbar.php'; ?>
+
+  <section class="page-hero">
+    <div class="container">
+      <div>
+        <h1>Proyectos</h1>
+        <div class="breadcrumbs">Inicio / Proyectos</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects-grid">
+    <div class="container">
+      <div class="grid">
+        <!-- Propiedades -->
+        <div class="card">
+          <div class="card-media">
+            <img src="https://i.pinimg.com/736x/ce/49/4a/ce494a90cc2434b2130c548bbf46a224.jpg" alt="Propiedades"
+              onerror="this.src='https://via.placeholder.com/800x400/f6f7f9/111?text=Propiedades'">
+          </div>
+          <div class="card-header"><i class="fas fa-building"></i>
+            <h3>Propiedades</h3>
+          </div>
+          <div class="card-body">Casas, departamentos, terrenos y locales comerciales.</div>
+          <div class="card-actions">
+            <a href="properties.php" class="btn">Ver propiedades</a>
+          </div>
+        </div>
+
+        <!-- Techo Propio -->
+        <div class="card">
+          <div class="card-media">
+            <img src="https://i.pinimg.com/736x/25/47/83/254783e49317fd2780e235198420ef09.jpg" alt="Techo Propio"
+              onerror="this.src='https://via.placeholder.com/800x400/fcba00/111?text=Techo+Propio'">
+          </div>
+          <div class="card-header"><i class="fas fa-house"></i>
+            <h3>Techo Propio</h3>
+          </div>
+          <div class="card-body">Accede al programa Techo Propio con asesoría integral.</div>
+          <div class="card-actions">
+            <a href="techo-propio.php#pre-evaluation-form" class="btn">Evalúa tu bono </a>
+          </div>
+        </div>
+
+        <!-- Crédito MiVivienda -->
+        <div class="card">
+          <div class="card-media">
+            <img src="https://i.pinimg.com/736x/01/c0/7a/01c07a858598f6af3e85da19ac75bfb7.jpg" alt="Crédito MiVivienda"
+              onerror="this.src='https://via.placeholder.com/800x400/fcba00/111?text=Cr%C3%A9dito+MiVivienda'">
+          </div>
+          <div class="card-header"><i class="fas fa-hand-holding-dollar"></i>
+            <h3>Crédito MiVivienda</h3>
+          </div>
+          <div class="card-body">Financia tu vivienda con el programa MiVivienda.</div>
+          <div class="card-actions">
+            <a href="credito.php#pre-evaluacion" class="btn">Evalúa tu crédito </a>
+          </div>
+        </div>
+
+        <!-- Habilitaciones -->
+        <div class="card">
+          <div class="card-media">
+            <img src="https://i.pinimg.com/736x/7e/00/7d/7e007d91fd15513cc899c70a087f7605.jpg" alt="Habilitaciones"
+              onerror="this.src='https://via.placeholder.com/800x400/f6f7f9/111?text=Habilitaciones'">
+          </div>
+          <div class="card-header"><i class="fas fa-hard-hat"></i>
+            <h3>Habilitaciones</h3>
+          </div>
+          <div class="card-body">Gestión de habilitaciones y proyectos urbanísticos.</div>
+          <div class="card-actions">
+            <a href="habilitaciones.php" class="btn">Ver habilitaciones</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <?php include 'includes/footer.php'; ?>
+
+  <script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>

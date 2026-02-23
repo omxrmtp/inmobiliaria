@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Redirigir favicon
+    RewriteRule ^favicon\.ico$ /images/propiedad.png [L]
+</IfModule>

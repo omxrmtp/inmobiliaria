@@ -1,0 +1,37 @@
+-- Optimizar tabla inquiries
+ALTER TABLE inquiries 
+DROP COLUMN id,
+ADD PRIMARY KEY (email, created_at),
+MODIFY COLUMN status ENUM('pending', 'in_progress', 'resolved') DEFAULT 'pending' NOT NULL,
+MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL;
+
+-- Optimizar tabla projects
+ALTER TABLE projects
+DROP COLUMN id,
+ADD PRIMARY KEY (title, created_at),
+MODIFY COLUMN description TEXT NOT NULL,
+MODIFY COLUMN image_urls JSON NOT NULL,
+MODIFY COLUMN location VARCHAR(255) NOT NULL,
+MODIFY COLUMN area DECIMAL(10,2) NOT NULL,
+MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL;
+
+-- Optimizar tabla properties
+ALTER TABLE properties
+DROP COLUMN id,
+ADD PRIMARY KEY (title, created_at),
+MODIFY COLUMN price DECIMAL(12,2) NOT NULL,
+MODIFY COLUMN description TEXT NOT NULL,
+MODIFY COLUMN location VARCHAR(255) NOT NULL,
+MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL;
+
+-- Optimizar tabla team_members
+ALTER TABLE team_members
+DROP COLUMN id,
+ADD PRIMARY KEY (email),
+MODIFY COLUMN name VARCHAR(255) NOT NULL,
+MODIFY COLUMN position VARCHAR(100) NOT NULL,
+MODIFY COLUMN phone VARCHAR(50) NOT NULL,
+MODIFY COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL;
+
+
+NO es ni la mitad de la bd JAJA

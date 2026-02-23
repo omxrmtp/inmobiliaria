@@ -1,0 +1,143 @@
+/* Eligibility Result */
+.eligibility-result {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--gray-100);
+  }
+  
+  .result-card {
+    background-color: var(--text-white);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .result-header {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--text-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .result-header.eligible {
+    background-color: var(--success-color);
+  }
+  
+  .result-header.not-eligible {
+    background-color: var(--accent-color);
+  }
+  
+  .result-header i {
+    font-size: 3rem;
+    margin-bottom: var(--spacing);
+  }
+  
+  .result-header h2 {
+    color: var(--text-white);
+    margin-bottom: 0;
+  }
+  
+  .result-content {
+    padding: var(--spacing-xl);
+  }
+  
+  .applicant-info {
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .applicant-info h3 {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--gray-300);
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing);
+  }
+  
+  .info-item {
+    margin-bottom: var(--spacing);
+  }
+  
+  .label {
+    font-weight: 600;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .value {
+    font-size: 1.1rem;
+  }
+  
+  .result-message {
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background-color: var(--gray-100);
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .result-message h3 {
+    margin-bottom: var(--spacing);
+  }
+  
+  .result-message p {
+    line-height: 1.8;
+  }
+  
+  .next-steps,
+  .alternatives {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .next-steps h3,
+  .alternatives h3 {
+    margin-bottom: var(--spacing);
+  }
+  
+  .next-steps ol,
+  .alternatives ul {
+    margin-bottom: var(--spacing-lg);
+    padding-left: var(--spacing-xl);
+  }
+  
+  .next-steps ol li,
+  .alternatives ul li {
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.8;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: var(--spacing);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .result-header {
+      padding: var(--spacing);
+    }
+  
+    .result-content {
+      padding: var(--spacing);
+    }
+  
+    .result-message {
+      padding: var(--spacing);
+    }
+  }
+  
+  

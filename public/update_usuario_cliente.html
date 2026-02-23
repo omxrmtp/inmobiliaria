@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar Tipo de Usuario a CLIENTE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #FCBA00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #F59E0B;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Actualizar Usuario a CLIENTE</h1>
+    <p>Esta herramienta actualiza el tipo de un contacto a CLIENTE para permitir acceso al portal.</p>
+
+    <form id="updateForm">
+        <div class="form-group">
+            <label>Email del Usuario:</label>
+            <input type="email" id="email" value="jhonchistama00617@gmail.com" required>
+        </div>
+        <button type="submit">Actualizar a CLIENTE</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('updateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '<div class="info">Procesando...</div>';
+
+            try {
+                const response = await fetch('update_to_cliente.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>✅ Éxito!</strong><br>
+                            ${data.message}<br>
+                            <br>
+                            <strong>Datos actualizados:</strong><br>
+                            ID: ${data.usuario.id}<br>
+                            Nombre: ${data.usuario.nombre}<br>
+                            Email: ${data.usuario.email}<br>
+                            Tipo: ${data.usuario.tipo}<br>
+                            <br>
+                            <a href="client-login.php">Ir al Login →</a>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <strong>❌ Error:</strong><br>
+                            ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Error de conexión:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+/* Estilos para la página de Habilitaciones */
+
+:root {
+  --color-primary: #fcba00;
+  --color-secondary: #303030;
+  --color-accent: #4a6da7;
+  --color-light: #f5f5f5;
+  --color-white: #ffffff;
+}
+
+/* Propiedades section */
+.properties-section {
+  padding: 60px 0;
+  background: #f9fafb;
+}
+
+.properties-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.properties-count h2 {
+  font-size: 28px;
+  color: #303030;
+  margin: 0 0 5px 0;
+}
+
+.properties-count p {
+  color: #666;
+  margin: 0;
+}
+
+.properties-sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.properties-sort label {
+  color: #303030;
+  font-weight: 600;
+}
+
+.properties-sort select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #303030;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 40px 0;
+}
+
+/* Tarjetas de propiedades */
+.property-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.property-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.property-image {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.property-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.property-card:hover .property-image img {
+  transform: scale(1.05);
+}
+
+.property-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #fcba00;
+  color: #303030;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.property-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.property-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #303030;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.property-location {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.property-location i {
+  margin-right: 6px;
+  color: #fcba00;
+}
+
+.property-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fcba00;
+  margin-bottom: 16px;
+}
+
+.property-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.property-buttons .btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #fcba00;
+  color: #303030;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: #e6a800;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #303030;
+  border: 2px solid #303030;
+  font-weight: 600;
+}
+
+.btn-outline:hover {
+  background: #303030;
+  color: white;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #303030;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.modal-close:hover {
+  color: #fcba00;
+}
+
+.modal-property-details {
+  padding: 30px;
+}
+
+.modal-gallery {
+  margin-bottom: 30px;
+}
+
+.main-image {
+  width: 100%;
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  object-fit: cover;
+}
+
+.thumbnail:hover {
+  border-color: #fcba00;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 28px;
+  color: #303030;
+  margin: 0;
+  flex: 1;
+}
+
+.property-status {
+  background: #fcba00;
+  color: #303030;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.modal-location {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.modal-location i {
+  margin-right: 8px;
+  color: #fcba00;
+}
+
+.modal-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-price strong {
+  color: #fcba00;
+  font-size: 24px;
+}
+
+.modal-description {
+  margin-bottom: 20px;
+}
+
+.modal-description h3 {
+  font-size: 18px;
+  color: #303030;
+  margin-bottom: 10px;
+}
+
+.modal-description p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.loading-spinner i {
+  font-size: 48px;
+  margin-bottom: 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+  font-size: 16px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  margin: 4px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #303030;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #fcba00;
+  border-color: #fcba00;
+  color: #303030;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .btn-primary {
+  background: #fcba00;
+  border-color: #fcba00;
+  color: #303030;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .properties-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .properties-sort {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .properties-sort select {
+    width: 100%;
+  }
+
+  .property-card {
+    margin: 0;
+  }
+
+  .property-buttons {
+    flex-direction: column;
+  }
+
+  .property-buttons .btn {
+    width: 100%;
+  }
+
+  .modal-content {
+    max-height: 95vh;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .modal-property-details {
+    padding: 20px;
+  }
+
+  .main-image {
+    height: 300px;
+  }
+
+  .modal-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-header h2 {
+    font-size: 22px;
+  }
+
+  .property-status {
+    align-self: flex-start;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
+  }
+
+  .modal-close {
+    right: 15px;
+    top: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .property-title {
+    font-size: 16px;
+  }
+
+  .property-price {
+    font-size: 18px;
+  }
+
+  .property-buttons .btn {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+
+  .modal-price {
+    font-size: 16px;
+  }
+
+  .modal-price strong {
+    font-size: 20px;
+  }
+
+  .properties-count h2 {
+    font-size: 22px;
+  }
+}

@@ -1,0 +1,649 @@
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px; /* Ensures a minimum height */
+    display: flex;
+    justify-content: center; /* Horizontally center the container */
+    align-items: stretch; /* Make container stretch vertically if not 100% height by default */
+    overflow: hidden;
+    background-color: var(--primary-color); /* This provides the yellow background */
+  }
+  
+  .hero-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    background-size: 100% auto; /* Fit width, auto height to maintain aspect ratio */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat;
+    image-rendering: crisp-edges; /* Restore for sharpness */
+    image-rendering: -webkit-optimize-contrast; /* Restore for sharpness */
+    -webkit-transform: translateZ(0); /* Performance optimization */
+    transform: translateZ(0); /* Performance optimization */
+    z-index: 0;
+  }
+  
+  .slide:first-child {
+    opacity: 1;
+  }
+  
+  .hero-overlay {
+  display: none; /* Ocultar explícitamente si no se usa */
+}
+
+/* Eliminado el overlay oscuro para mejorar la visibilidad de la imagen */
+  
+  .hero .container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 2; /* Asegurar que esté sobre .hero-slider */
+    background-color: var(--primary-color); /* Fondo amarillo explícito para la franja */
+    padding: 1.5rem 1rem; /* Padding consistente para la franja (ej. 1.5rem arriba/abajo, 1rem a los lados) */
+    box-sizing: border-box;
+    display: flex; /* Usar flex para centrar .hero-buttons */
+    justify-content: center; /* Centrar .hero-buttons horizontalmente */
+    align-items: center; /* Centrar .hero-buttons verticalmente si la franja es más alta */
+  }
+  
+  .hero h2 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-white);
+  }
+  
+  .hero p {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-xl);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Animaciones para el hero */
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* Espacio entre botones */
+  flex-wrap: wrap; /* Permitir que los botones se ajusten en pantallas pequeñas */
+  width: 100%;
+  max-width: 800px; /* Ancho máximo para el grupo de botones, ajustar si es necesario */
+  /* margin-top: auto; ya no es necesario con el nuevo posicionamiento de .hero .container */
+}
+
+  .hero h2.slide-in-up {
+    animation-delay: 0.4s;
+  }
+  
+  .hero p.slide-in-up {
+    animation-delay: 0.6s;
+  }
+  
+  .hero .btn.slide-in-up {
+    animation-delay: 0.8s;
+  }
+  
+  /* Features Section */
+  .features {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--text-white);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .features::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(230, 181, 74, 0.1);
+    border-radius: var(--border-radius-circle);
+    z-index: 0;
+  }
+  
+  .features::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(26, 58, 95, 0.1);
+    border-radius: var(--border-radius-circle);
+    z-index: 0;
+  }
+  
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .feature-card {
+    background-color: var(--text-white);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    text-align: center;
+  }
+  
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background: linear-gradient(135deg, rgba(26, 58, 95, 0.05) 0%, rgba(230, 181, 74, 0.05) 100%);
+    transition: var(--transition);
+    z-index: -1;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .feature-card:hover::before {
+    height: 100%;
+  }
+  
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-radius: var(--border-radius-circle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-lg);
+    transition: var(--transition);
+  }
+  
+  .feature-card:hover .feature-icon {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    transform: rotateY(180deg);
+  }
+  
+  .feature-icon i {
+    font-size: 2rem;
+    transition: var(--transition);
+  }
+  
+  .feature-card:hover .feature-icon i {
+    transform: rotateY(180deg);
+  }
+  
+  /* Featured Properties */
+  .featured-properties {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--gray-100);
+    position: relative;
+  }
+  
+  .featured-properties::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f1f1f1" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
+    opacity: 0.5;
+    z-index: 0;
+  }
+  
+  .featured-properties h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .property-card {
+    background-color: var(--text-white);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    height: 100%;
+    position: relative;
+  }
+  
+  .property-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .property-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+  }
+  
+  .property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  
+  .property-card:hover .property-image img {
+    transform: scale(1.1);
+  }
+  
+  .property-tag {
+    position: absolute;
+    top: var(--spacing);
+    right: var(--spacing);
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-xl);
+    font-size: 0.875rem;
+    font-weight: 700;
+    z-index: 1;
+    box-shadow: var(--shadow);
+  }
+  
+  .property-info {
+    padding: var(--spacing-lg);
+  }
+  
+  .property-location {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing);
+    color: var(--text-light);
+    font-size: 0.875rem;
+  }
+  
+  .property-location i {
+    color: var(--secondary-color);
+    margin-right: var(--spacing-sm);
+  }
+  
+  .property-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing);
+  }
+  
+  .property-features {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing) 0;
+    border-top: 1px solid var(--gray-200);
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: var(--spacing);
+  }
+  
+  .view-all {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Techo Propio Section */
+  .techo-propio {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--text-white);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .techo-propio::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background-color: rgba(230, 181, 74, 0.1);
+    border-radius: var(--border-radius-circle);
+    z-index: 0;
+  }
+  
+  .techo-propio-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .techo-propio-image {
+    position: relative;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .techo-propio-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+  
+  .techo-propio-image:hover img {
+    transform: scale(1.05);
+  }
+  
+  .techo-propio-info {
+    padding: var(--spacing-lg);
+  }
+  
+  /* Testimonials Section */
+  .testimonials {
+    padding: var(--spacing-xxl) 0;
+    background-color: var(--gray-100);
+    position: relative;
+  }
+  
+  .testimonials::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f1f1f1" fill-opacity="0.4" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
+    opacity: 0.5;
+    z-index: 0;
+  }
+  
+  .testimonials h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .testimonial-slider {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    z-index: 1;
+  }
+  
+  .testimonial-slide {
+    background-color: var(--text-white);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    margin: var(--spacing) var(--spacing-lg);
+    position: relative;
+    display: none;
+  }
+  
+  .testimonial-slide:first-child {
+    display: block;
+  }
+  
+  .testimonial-content {
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+  
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+  }
+  
+  .testimonial-author img {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--border-radius-circle);
+    object-fit: cover;
+    margin-right: var(--spacing);
+    border: 3px solid var(--secondary-color);
+  }
+  
+  /* CTA Section */
+  .cta {
+    padding: var(--spacing-xxl) 0;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-white);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23ffffff" fill-opacity="0.05" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E');
+    z-index: 0;
+  }
+  
+  .cta .container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .cta h2 {
+    color: var(--text-white);
+    margin-bottom: var(--spacing);
+  }
+  
+  .cta p {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-xl);
+    opacity: 0.9;
+  }
+  
+  /* Asistente Virtual */
+  .assistant-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: var(--border-radius-circle);
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-fixed);
+    transition: var(--transition);
+    border: none;
+  }
+  
+  .assistant-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .assistant-btn i {
+    font-size: 1.5rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 992px) {
+    .hero h2 {
+      font-size: 2.5rem;
+    }
+  
+    .techo-propio-content {
+      grid-template-columns: 1fr;
+    }
+  
+    .techo-propio-image {
+      order: 1;
+      margin-bottom: var(--spacing-lg);
+    }
+  
+  }
+
+@media (max-width: 768px) {
+  /* Estilos responsivos generales para 768px y menos */
+  .hero h2 {
+    font-size: 2rem; /* Mantener si es para texto DENTRO del hero, no para el hero mismo */
+  }
+  .hero p {
+    font-size: 1rem; /* Mantener si es para texto DENTRO del hero */
+  }
+  .property-grid {
+    grid-template-columns: 1fr;
+  }
+  .assistant-btn {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+  .assistant-btn i {
+    font-size: 1.25rem;
+  }
+
+  /* === Hero Section Responsivo (768px y menos) === */
+  .hero {
+    display: block;
+    position: relative;
+    height: 90.3vw; /* Altura total de la sección hero es la altura de la imagen */
+    min-height: 0 !important; /* Anular min-height de escritorio */
+    background-color: transparent; /* El slider lo cubrirá */
+    overflow: hidden;
+  }
+
+  .hero-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* El slider llena completamente el .hero */
+    overflow: hidden;
+    z-index: 1;
+  }
+  /* .slide dentro de .hero-slider usa background-size: 100% auto; para mostrar imagen completa */
+
+  .hero .container { /* Barra de botones - Superpuesta */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 4.5rem; /* Altura fija para la barra de botones */
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.75rem; /* Padding horizontal */
+    box-sizing: border-box;
+    z-index: 2; /* Encima del slider */
+  }
+
+  .hero-buttons {
+    gap: 0.5rem; /* Reducir espacio entre botones */
+  }
+  .hero-buttons .btn {
+    font-size: 0.75rem; /* Reducir tamaño de fuente */
+    padding: 0.5rem 0.8rem; /* Reducir padding */
+  }
+}
+
+@media (max-width: 576px) {
+  .hero h2 {
+    font-size: 1.75rem;
+  }
+
+  .feature-card {
+    padding: var(--spacing);
+  }
+
+  .testimonial-slide {
+    padding: var(--spacing);
+    margin: var(--spacing-sm);
+  }
+
+  .testimonial-content {
+    font-size: 1rem;
+  }
+
+  .cta h2 {
+    font-size: 2rem;
+  }
+
+  .cta p {
+    font-size: 1rem;
+  }
+}
+
+/* === Hero Section Responsivo (480px y menos) === */
+@media (max-width: 480px) {
+  /* .hero y .hero-slider heredan estilos del breakpoint de 768px */
+  /* Esto significa que .hero tiene height: 39.3vw y .hero-slider lo llena. */
+  /* .hero .container hereda position:absolute, bottom:0, etc. */
+
+  .hero .container { /* Barra de botones - Superpuesta */
+    height: 4rem; /* Altura un poco menor para la barra en pantallas muy pequeñas */
+    padding: 0 0.5rem; /* Menor padding horizontal */
+  }
+
+  .hero-buttons {
+    gap: 0.3rem; /* Reducir aún más el espacio entre botones */
+  }
+  .hero-buttons .btn {
+    font-size: 0.65rem; /* Reducir más tamaño de fuente */
+    padding: 0.4rem 0.6rem; /* Reducir más padding */
+  }
+
+  .hero h2 {
+    font-size: 1.75rem; /* Ajustar si este texto está en la imagen y necesita ser más pequeño */
+  }
+}
+  
+  

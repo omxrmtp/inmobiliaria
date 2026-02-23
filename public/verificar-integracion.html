@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Integración Web → CRM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .check-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .check-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .check-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .check-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .check-icon.loading {
+            background: #e8f4f8;
+            animation: spin 2s linear infinite;
+        }
+
+        .check-icon.success {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+
+        .check-icon.error {
+            background: #fadbd8;
+            color: #e74c3c;
+        }
+
+        .check-content {
+            flex: 1;
+        }
+
+        .check-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .check-status {
+            font-size: 12px;
+            color: #95a5a6;
+            margin: 0;
+        }
+
+        .check-status.success {
+            color: #27ae60;
+        }
+
+        .check-status.error {
+            color: #e74c3c;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .info-box {
+            background: #ecf0f1;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .info-box code {
+            background: #d5d8db;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .button-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            font-size: 12px;
+        }
+
+        .summary {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .summary.success {
+            background: #d5f4e6;
+            border-color: #27ae60;
+            color: #0b5345;
+        }
+
+        .summary.error {
+            background: #fadbd8;
+            border-color: #e74c3c;
+            color: #5c2e2e;
+        }
+
+        @media (max-width: 600px) {
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .check-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Verificación de Integración</h1>
+            <p>Verifica que todos los componentes estén correctamente configurados</p>
+        </div>
+
+        <div class="check-grid" id="checks">
+            <div class="check-item">
+                <div class="check-icon loading">⚙️</div>
+                <div class="check-content">
+                    <div class="check-title">Backend CRM</div>
+                    <p class="check-status">Verificando conexión...</p>
+                </div>
+            </div>
+
+            <div class="check-item">
+                <div class="check-icon loading">⚙️</div>
+                <div class="check-content">
+                    <div class="check-title">Base de Datos MySQL</div>
+                    <p class="check-status">Verificando conexión...</p>
+                </div>
+            </div>
+
+            <div class="check-item">
+                <div class="check-icon loading">⚙️</div>
+                <div class="check-content">
+                    <div class="check-title">Endpoint /api/public/lead</div>
+                    <p class="check-status">Verificando disponibilidad...</p>
+                </div>
+            </div>
+
+            <div class="check-item">
+                <div class="check-icon loading">⚙️</div>
+                <div class="check-content">
+                    <div class="check-title">Configuración CORS</div>
+                    <p class="check-status">Verificando configuración...</p>
+                </div>
+            </div>
+
+            <div class="check-item">
+                <div class="check-icon loading">⚙️</div>
+                <div class="check-content">
+                    <div class="check-title">Archivo crm-config.js</div>
+                    <p class="check-status">Verificando carga...</p>
+                </div>
+            </div>
+
+            <div class="check-item">
+                <div class="check-icon loading">⚙️</div>
+                <div class="check-content">
+                    <div class="check-title">Formulario Web</div>
+                    <p class="check-status">Verificando elementos...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="margin-top: 30px;">
+            <h2>📋 Configuración Detectada</h2>
+
+            <div class="info-box">
+                <strong>API Base URL:</strong><br>
+                <code id="api-base">http://localhost:5000/api</code>
+            </div>
+
+            <div class="info-box">
+                <strong>Versión de CRM Config:</strong><br>
+                <span id="config-version">Detectando...</span>
+            </div>
+
+            <div class="info-box">
+                <strong>Elementos del Formulario:</strong><br>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>nombre: <span id="check-nombre">❓</span></li>
+                    <li>apellido: <span id="check-apellido">❓</span></li>
+                    <li>email: <span id="check-email">❓</span></li>
+                    <li>telefono: <span id="check-telefono">❓</span></li>
+                    <li>interes (radio): <span id="check-interes">❓</span></li>
+                    <li>origen (select): <span id="check-origen">❓</span></li>
+                    <li>mensaje: <span id="check-mensaje">❓</span></li>
+                </ul>
+            </div>
+
+            <div id="summary"></div>
+        </div>
+
+        <div class="section">
+            <h2>🔗 Enlaces Rápidos</h2>
+
+            <div class="button-group">
+                <a href="/test-lead-integration.html" class="button button-primary">
+                    🧪 Test de Leads
+                </a>
+                <a href="http://localhost:3000" target="_blank" class="button button-secondary">
+                    📊 Ver CRM
+                </a>
+            </div>
+
+            <div class="info-box" style="margin-top: 15px;">
+                <strong>Próximos pasos:</strong><br>
+                Si todas las verificaciones son exitosas:<br>
+                1. Haz clic en "🧪 Test de Leads"<br>
+                2. Completa el formulario de prueba<br>
+                3. Haz clic en "Enviar Lead"<br>
+                4. Abre "📊 Ver CRM" para confirmar que el lead aparece
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔗 Integración Web → CRM | Estado: Verificando...</p>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="crm-config.js"></script>
+    <script>
+        // Configuración de API
+        window.CRM_API_BASE = window.CRM_API_BASE || window.APP_CONFIG.api.apiBase;
+
+        const checks = [
+            {
+                name: 'Backend CRM',
+                test: async () => {
+                    try {
+                        const response = await fetch(window.CRM_API_BASE.replace(/\/api$/, '/health'));
+                        return response.ok;
+                    } catch {
+                        return false;
+                    }
+                }
+            },
+            {
+                name: 'Base de Datos MySQL',
+                test: async () => {
+                    try {
+                        const response = await fetch(window.CRM_API_BASE + '/public/lead', {
+                            method: 'OPTIONS'
+                        });
+                        return response.ok || response.status === 204;
+                    } catch {
+                        return false;
+                    }
+                }
+            },
+            {
+                name: 'Endpoint /api/public/lead',
+                test: async () => {
+                    try {
+                        const response = await fetch(window.CRM_API_BASE + '/public/lead', {
+                            method: 'OPTIONS'
+                        });
+                        return response.ok || response.status === 204;
+                    } catch {
+                        return false;
+                    }
+                }
+            },
+            {
+                name: 'Configuración CORS',
+                test: async () => {
+                    try {
+                        const response = await fetch(window.CRM_API_BASE + '/public/lead', {
+                            method: 'OPTIONS',
+                            headers: {
+                                'Origin': window.location.origin
+                            }
+                        });
+                        return response.headers.get('Access-Control-Allow-Origin') !== null ||
+                               response.status === 204;
+                    } catch {
+                        return false;
+                    }
+                }
+            },
+            {
+                name: 'Archivo crm-config.js',
+                test: async () => {
+                    return typeof window.CRM_CONFIG !== 'undefined' &&
+                           typeof window.CRM_CONFIG.sendLead === 'function';
+                }
+            },
+            {
+                name: 'Formulario Web',
+                test: async () => {
+                    return document.getElementById('lwf-form') !== null &&
+                           document.getElementById('lwf-nombre') !== null;
+                }
+            }
+        ];
+
+        const formFields = [
+            'lwf-nombre',
+            'lwf-apellido',
+            'lwf-email',
+            'lwf-telefono',
+            'lwf-origen',
+            'lwf-mensaje'
+        ];
+
+        // Ejecutar pruebas
+        async function runChecks() {
+            const checkItems = document.querySelectorAll('.check-item');
+            let successCount = 0;
+
+            for (let i = 0; i < checks.length; i++) {
+                const check = checks[i];
+                const item = checkItems[i];
+                const icon = item.querySelector('.check-icon');
+                const status = item.querySelector('.check-status');
+
+                try {
+                    const result = await check.test();
+
+                    if (result) {
+                        icon.className = 'check-icon success';
+                        icon.textContent = '✓';
+                        status.className = 'check-status success';
+                        status.textContent = 'Verificado ✓';
+                        successCount++;
+                    } else {
+                        icon.className = 'check-icon error';
+                        icon.textContent = '✗';
+                        status.className = 'check-status error';
+                        status.textContent = 'Error ✗';
+                    }
+                } catch (error) {
+                    icon.className = 'check-icon error';
+                    icon.textContent = '✗';
+                    status.className = 'check-status error';
+                    status.textContent = 'Error: ' + error.message.substring(0, 30);
+                }
+            }
+
+            // Verificar campos del formulario
+            formFields.forEach((fieldId, index) => {
+                const field = document.getElementById(fieldId);
+                const indicator = document.getElementById('check-' + fieldId.replace('lwf-', ''));
+                if (indicator) {
+                    indicator.textContent = field ? '✓' : '✗';
+                }
+            });
+
+            // Mostrar resumen
+            const summary = document.getElementById('summary');
+            if (successCount === checks.length) {
+                summary.className = 'summary success';
+                summary.innerHTML = '<strong>✅ ¡Todo está configurado correctamente!</strong><br>Puedes comenzar a usar la integración.';
+            } else {
+                summary.className = 'summary error';
+                summary.innerHTML = `<strong>⚠️ ${checks.length - successCount} problema(s) detectado(s)</strong><br>Revisa los items en rojo arriba.`;
+            }
+
+            // Actualizar footer
+            document.querySelector('.footer p').textContent =
+                `🔗 Integración Web → CRM | ${successCount}/${checks.length} verificaciones exitosas`;
+        }
+
+        // Ejecutar pruebas al cargar
+        document.addEventListener('DOMContentLoaded', runChecks);
+        runChecks();
+    </script>
+</body>
+</html>
