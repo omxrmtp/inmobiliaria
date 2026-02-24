@@ -139,7 +139,7 @@ try {
 echo "<h2>4. Configuración Alternativa (src/config)</h2>";
 try {
     require_once __DIR__ . '/../src/config/settings.php';
-    require_once __DIR__ . '/../src/config/database.php';
+    require_once __DIR__ . '/../config/database.php';
     
     echo "<pre>";
     echo "DB_HOST: " . (defined('DB_HOST') ? DB_HOST : 'NO DEFINIDO') . "\n";
