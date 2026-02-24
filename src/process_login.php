@@ -20,49 +20,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Connect to database
         $conn = connectDB();
         
-        // Prepare and execute query
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
+        if (!$conn) {
+            throw new PDOException('No se pudo establecer conexión con la base de datos.');
+        }
+        
+        // Preparar y ejecutar consulta contra tabla usuarios (esquema real)
+        $stmt = $conn->prepare("
+            SELECT 
+                id,
+                nombre,
+                correo,
+                contrasena,
+                rol,
+                telefono,
+                activo
+            FROM usuarios
+            WHERE correo = :correo
+            LIMIT 1
+        ");
+        $stmt->bindParam(':correo', $email);
         $stmt->execute();
         
         // Check if user exists
         if ($stmt->rowCount() > 0) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            // Verify password (supports both hash and plain text)
-            if (password_verify($password, $user['password']) || $password === $user['password']) {
-                // Set session variables
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['name'];
-                $_SESSION['user_email'] = $user['email'];
-                $_SESSION['user_role'] = $user['role'];
-                
-                // Set remember me cookie if checked
-                if ($remember) {
-                    $token = bin2hex(random_bytes(32));
-                    $expires = time() + (30 * 24 * 60 * 60); // 30 days
-                    
-                    // Store token in database
-                    $stmt = $conn->prepare("UPDATE users SET remember_token = :token, token_expires = :expires WHERE id = :id");
-                    $stmt->bindParam(':token', $token);
-                    $stmt->bindParam(':expires', date('Y-m-d H:i:s', $expires));
-                    $stmt->bindParam(':id', $user['id']);
-                    $stmt->execute();
-                    
-                    // Set cookie
-                    setcookie('remember_token', $token, $expires, '/', '', false, true);
-                }
-                
-                // Redirect based on role
-                // Usar rutas absolutas relativas al DocumentRoot (public/)
-                if ($user['role'] === 'admin') {
-                    header('Location: /admin/index.php');
-                } else {
-                    header('Location: /index.html');
-                }
-                exit();
+
+            // Verificar si el usuario está activo (si la columna está presente)
+            if (isset($user['activo']) && (int)$user['activo'] !== 1) {
+                $_SESSION['error'] = 'Usuario inactivo. Contacta con el administrador.';
             } else {
-                $_SESSION['error'] = 'Correo electrónico o contraseña incorrectos.';
+                // Verify password (supports both hash and plain text)
+                if (password_verify($password, $user['contrasena']) || $password === $user['contrasena']) {
+                    // Set session variables
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_name'] = $user['nombre'];
+                    $_SESSION['user_email'] = $user['correo'];
+                    $_SESSION['user_role'] = $user['rol'];
+                    
+                    // Opcional: lógica "recordarme" desactivada porque la tabla no tiene campos remember_token/token_expires
+                    
+                    // Redirect based on role
+                    // Usar rutas absolutas relativas al DocumentRoot (public/)
+                    if ($user['rol'] === 'ADMIN') {
+                        header('Location: /admin/index.php');
+                    } else {
+                        header('Location: /index.html');
+                    }
+                    exit();
+                } else {
+                    $_SESSION['error'] = 'Correo electrónico o contraseña incorrectos.';
+                }
             }
         } else {
             $_SESSION['error'] = 'Correo electrónico o contraseña incorrectos.';

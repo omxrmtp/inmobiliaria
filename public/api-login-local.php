@@ -30,23 +30,37 @@ try {
         exit();
     }
 
-    // Buscar en tabla cliente primero
-    $sql = "SELECT c.id, c.nombre, c.apellido, c.correo, c.telefono,
-                   cp.contrasena_web as password_web, cp.activo
-            FROM cliente c
-            LEFT JOIN cliente_password cp ON c.id = cp.id_contacto
-            WHERE c.correo = :email 
+    // Buscar primero en tabla CLIENTES (esquema actual)
+    $sql = "SELECT 
+                c.id,
+                c.nombre,
+                c.apellido,
+                c.correo,
+                c.telefono,
+                cp.password_web,
+                cp.activo,
+                'CLIENTE' AS tipo
+            FROM clientes c
+            LEFT JOIN cliente_passwords cp ON c.id = cp.contacto_id
+            WHERE c.correo = :email
             LIMIT 1";
 
     $cliente = fetchOne($sql, ['email' => $email]);
 
-    // Si no encuentra en cliente, buscar en lead
+    // Si no encuentra en clientes, buscar en LEADS
     if (!$cliente) {
-        $sql = "SELECT l.id, l.nombre, l.apellido, l.correo, l.telefono,
-                       cp.contrasena_web as password_web, cp.activo
-                FROM lead l
-                LEFT JOIN cliente_password cp ON l.id = cp.id_contacto
-                WHERE l.correo = :email 
+        $sql = "SELECT 
+                    l.id,
+                    l.nombre,
+                    l.apellido,
+                    l.correo,
+                    l.telefono,
+                    cp.password_web,
+                    cp.activo,
+                    'LEAD' AS tipo
+                FROM leads l
+                LEFT JOIN cliente_passwords cp ON l.id = cp.contacto_id
+                WHERE l.correo = :email
                 LIMIT 1";
 
         $cliente = fetchOne($sql, ['email' => $email]);
@@ -59,14 +73,14 @@ try {
     }
 
     // Verificar que tenga contraseña web configurada
-    if (!$cliente['password_web']) {
+    if (empty($cliente['password_web'])) {
         http_response_code(403);
         echo json_encode(['error' => 'Tu cuenta no tiene acceso configurado. Por favor, contacta con el administrador.']);
         exit();
     }
 
     // Verificar que la cuenta esté activa
-    if ($cliente['activo'] === 0 || $cliente['activo'] === '0') {
+    if (isset($cliente['activo']) && ($cliente['activo'] === 0 || $cliente['activo'] === '0')) {
         http_response_code(403);
         echo json_encode(['error' => 'Tu cuenta no tiene acceso activo. Por favor, contacta con el administrador.']);
         exit();
@@ -95,12 +109,14 @@ try {
 
     $_SESSION['token'] = $token;
 
-    // Registrar último acceso
+    // Registrar último acceso (estructura real: id, contacto_id, fecha_acceso, ip_address, user_agent)
     executeQuery(
-        "INSERT INTO cliente_accesos (contacto_id, fecha_acceso, ip_address) VALUES (:id, NOW(), :ip)",
+        "INSERT INTO cliente_accesos (id, contacto_id, fecha_acceso, ip_address, user_agent)
+         VALUES (UUID(), :id, NOW(), :ip, :ua)",
         [
             'id' => $cliente['id'],
-            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+            'ua' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
         ]
     );
 

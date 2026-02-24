@@ -70,7 +70,7 @@ try {
     $usuario = $stmtUser->fetch(PDO::FETCH_ASSOC);
     
     if (!$usuario) {
-        // Si no hay usuarios, crear uno por defecto para el sistema
+        // Si no hay usuarios, crear uno por defecto para el sistema (esquema real de la tabla usuarios)
         $defaultUserId = sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             mt_rand(0, 0xffff), mt_rand(0, 0xffff),
             mt_rand(0, 0xffff),
@@ -79,8 +79,31 @@ try {
             mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
         );
         
-        $pdo->exec("INSERT INTO usuarios (id, nombre, correo, contrasena, rol, creado_en, actualizado_en) 
-                    VALUES ('$defaultUserId', 'Sistema', 'sistema@delgadopropiedades.com', '', 'ADMIN', NOW(), NOW())");
+        $pdo->exec("
+            INSERT INTO usuarios (
+                id,
+                nombre,
+                correo,
+                contrasena,
+                rol,
+                avatar,
+                telefono,
+                activo,
+                creadoEn,
+                actualizadoEn
+            ) VALUES (
+                '$defaultUserId',
+                'Sistema',
+                'sistema@delgadopropiedades.com',
+                '',
+                'ADMIN',
+                NULL,
+                NULL,
+                1,
+                NOW(3),
+                NOW(3)
+            )
+        ");
         $idUsuario = $defaultUserId;
     } else {
         $idUsuario = $usuario['id'];
