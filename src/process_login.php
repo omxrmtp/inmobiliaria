@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+// Asegurar carga de configuración de BD de src/
+require_once __DIR__ . '/config/settings.php';
+require_once __DIR__ . '/config/database.php';
+
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data

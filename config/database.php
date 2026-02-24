@@ -25,19 +25,37 @@ if ($isDevelopment) {
         }
     }
     
-    define('DB_HOST', $db_host);
-    define('DB_NAME', getenv('DB_NAME') ?: 'crm_delgado');
-    define('DB_USER', getenv('DB_USER') ?: 'root');
-    define('DB_PASS', getenv('DB_PASS') ?: '00617');
+    if (!defined('DB_HOST')) {
+        define('DB_HOST', $db_host);
+    }
+    if (!defined('DB_NAME')) {
+        define('DB_NAME', getenv('DB_NAME') ?: 'crm_delgado');
+    }
+    if (!defined('DB_USER')) {
+        define('DB_USER', getenv('DB_USER') ?: 'root');
+    }
+    if (!defined('DB_PASS')) {
+        define('DB_PASS', getenv('DB_PASS') ?: '00617');
+    }
 } else {
     // Configuración para Hostinger (producción)
-    define('DB_HOST', 'srv448.hstgr.io');
-    define('DB_NAME', 'u476108630_crm_delgado');
-    define('DB_USER', 'u476108630_delgadoUser');
-    define('DB_PASS', 'Rmdpropiedades23');
+    if (!defined('DB_HOST')) {
+        define('DB_HOST', 'srv448.hstgr.io');
+    }
+    if (!defined('DB_NAME')) {
+        define('DB_NAME', 'u476108630_crm_delgado');
+    }
+    if (!defined('DB_USER')) {
+        define('DB_USER', 'u476108630_delgadoUser');
+    }
+    if (!defined('DB_PASS')) {
+        define('DB_PASS', 'Rmdpropiedades23');
+    }
 }
 
-define('DB_CHARSET', 'utf8mb4');
+if (!defined('DB_CHARSET')) {
+    define('DB_CHARSET', 'utf8mb4');
+}
 
 // Crear conexión PDO
 function getDBConnection() {
