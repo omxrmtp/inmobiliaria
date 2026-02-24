@@ -29,11 +29,9 @@ switch ($metodo) {
 }
 
 /**
- * Login de usuario
+ * Login de usuario (API) usando tabla `usuarios`
  */
 function login() {
-    global $conn;
-    
     $datos = obtenerCuerpoPeticion();
     validarCamposRequeridos($datos, ['email', 'password']);
     
@@ -41,39 +39,63 @@ function login() {
     $password = $datos['password'];
     
     try {
-        $stmt = $conn->prepare("SELECT id, name, email, password, role FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
+        // Usar la conexión PDO definida en config/database.php
+        $pdo = getDBConnection();
         
-        if ($resultado->num_rows === 0) {
+        // Buscar usuario interno en tabla `usuarios`
+        $stmt = $pdo->prepare("
+            SELECT 
+                id,
+                nombre,
+                correo,
+                contrasena,
+                rol,
+                activo
+            FROM usuarios
+            WHERE correo = :correo
+            LIMIT 1
+        ");
+        $stmt->execute([':correo' => $email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$usuario) {
             enviarError('Credenciales inválidas', 401);
         }
         
-        $usuario = $resultado->fetch_assoc();
+        // Verificar estado activo si la columna existe
+        if (isset($usuario['activo']) && (int)$usuario['activo'] !== 1) {
+            enviarError('Usuario inactivo. Contacta con el administrador.', 403);
+        }
         
-        // Verificar contraseña
-        // IMPORTANTE: En tu sistema actual las contraseñas no están hasheadas
-        // Deberías implementar password_hash() y password_verify()
-        if ($usuario['password'] !== $password) {
-            // Para producción usar: password_verify($password, $usuario['password'])
+        // Verificar contraseña (hash o texto plano de transición)
+        if (!(password_verify($password, $usuario['contrasena']) || $password === $usuario['contrasena'])) {
             enviarError('Credenciales inválidas', 401);
         }
         
         // Generar token
-        $token = generarToken($usuario['id'], $usuario['email'], $usuario['role']);
+        $token = generarToken($usuario['id'], $usuario['correo'], $usuario['rol']);
         
-        // Guardar token en la base de datos
-        $ip_origen = $_SERVER['REMOTE_ADDR'] ?? null;
-        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? null;
-        $fecha_expiracion = date('Y-m-d H:i:s', time() + JWT_EXPIRATION_TIME);
-        
-        $stmt_token = $conn->prepare("
-            INSERT INTO tokens_api (usuario_id, token, tipo, ip_origen, user_agent, fecha_expiracion) 
-            VALUES (?, ?, 'acceso', ?, ?, ?)
-        ");
-        $stmt_token->bind_param("issss", $usuario['id'], $token, $ip_origen, $user_agent, $fecha_expiracion);
-        $stmt_token->execute();
+        // Intentar guardar token en tabla tokens_api si existe (no romper si no está creada)
+        try {
+            $ip_origen = $_SERVER['REMOTE_ADDR'] ?? null;
+            $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+            $fecha_expiracion = date('Y-m-d H:i:s', time() + JWT_EXPIRATION_TIME);
+            
+            $stmtToken = $pdo->prepare("
+                INSERT INTO tokens_api (usuario_id, token, tipo, ip_origen, user_agent, fecha_expiracion) 
+                VALUES (:usuario_id, :token, 'acceso', :ip, :ua, :expira)
+            ");
+            $stmtToken->execute([
+                ':usuario_id' => $usuario['id'],
+                ':token'      => $token,
+                ':ip'         => $ip_origen,
+                ':ua'         => $user_agent,
+                ':expira'     => $fecha_expiracion,
+            ]);
+        } catch (Exception $e) {
+            // Si la tabla tokens_api no existe u otro error, solo logear y seguir
+            error_log('Error guardando token API: ' . $e->getMessage());
+        }
         
         enviarRespuesta(true, [
             'token' => $token,
@@ -81,9 +103,9 @@ function login() {
             'expira_en' => JWT_EXPIRATION_TIME,
             'usuario' => [
                 'id' => $usuario['id'],
-                'nombre' => $usuario['name'],
-                'email' => $usuario['email'],
-                'rol' => $usuario['role']
+                'nombre' => $usuario['nombre'],
+                'email' => $usuario['correo'],
+                'rol' => $usuario['rol']
             ]
         ], 'Login exitoso', 200);
         
@@ -112,8 +134,6 @@ function refrescarToken() {
  * Logout (revocar token)
  */
 function logout() {
-    global $conn;
-    
     $token = obtenerToken();
     
     if (!$token) {
@@ -121,9 +141,15 @@ function logout() {
     }
     
     try {
-        $stmt = $conn->prepare("UPDATE tokens_api SET revocado = 1 WHERE token = ?");
-        $stmt->bind_param("s", $token);
-        $stmt->execute();
+        $pdo = getDBConnection();
+        
+        try {
+            $stmt = $pdo->prepare("UPDATE tokens_api SET revocado = 1 WHERE token = :token");
+            $stmt->execute([':token' => $token]);
+        } catch (Exception $e) {
+            // Si la tabla tokens_api no existe u otro problema, solo registrar
+            error_log('Error actualizando token API en logout: ' . $e->getMessage());
+        }
         
         enviarRespuesta(true, null, 'Logout exitoso', 200);
     } catch (Exception $e) {

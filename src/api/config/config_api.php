@@ -160,7 +160,8 @@ function verificarAutenticacion() {
 function verificarAdmin() {
     $payload = verificarAutenticacion();
     
-    if ($payload['rol'] !== 'admin') {
+    // En el esquema actual, los roles en tabla `usuarios` son: ADMIN, SUPERVISOR, AGENTE, ASISTENTE
+    if (!isset($payload['rol']) || $payload['rol'] !== 'ADMIN') {
         enviarError('No tienes permisos de administrador', 403);
     }
     
