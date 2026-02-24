@@ -50,18 +50,8 @@ if (strlen($name) < 3) {
 }
 
 try {
-    // TODO: Conectar a la base de datos externa
-    // Ejemplo:
-    // $user_id = registerUser($name, $email, $phone, $password);
-    
-    // TEMPORAL: Simulación para pruebas
-    // Remover esto cuando se conecte a la BD real
-    $_SESSION['error'] = 'Sistema de registro pendiente de configuración. Conecte a su base de datos.';
-    header('Location: /client-register.php');
-    exit();
-    
-    /*
-    // Cuando conectes a tu BD, usa este código como referencia:
+    // Incluir configuración de base de datos
+    require_once __DIR__ . '/client_db_config.php';
     
     // Verificar si el email ya existe
     if (emailExists($email)) {
@@ -74,13 +64,14 @@ try {
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
     
     // Crear nuevo usuario
-    $user_id = createUser([
+    $user_data = [
         'name' => $name,
         'email' => $email,
         'phone' => $phone,
-        'password' => $password_hash,
-        'role' => 'user'
-    ]);
+        'password' => $password_hash
+    ];
+    
+    $user_id = registerUser($user_data);
     
     if ($user_id) {
         // Establecer variables de sesión
@@ -99,7 +90,6 @@ try {
     } else {
         throw new Exception('No se pudo crear la cuenta.');
     }
-    */
     
 } catch (Exception $e) {
     error_log("Error en registro de cliente: " . $e->getMessage());

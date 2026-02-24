@@ -12,6 +12,10 @@ $client_name = $_SESSION['client_name'] ?? 'Cliente';
 $client_email = $_SESSION['client_email'] ?? '';
 $client_token = $_SESSION['token'] ?? null; // Token JWT para APIs del backend
 
+// Manejar mensajes de éxito
+$success_message = isset($_SESSION['success']) ? $_SESSION['success'] : '';
+unset($_SESSION['success']); // Limpiar mensaje después de mostrarlo
+
 // Debug: verificar que el token existe
 if (!$client_token) {
     error_log("ADVERTENCIA: No hay token en la sesión para el cliente: " . $_SESSION['client_id']);
@@ -656,6 +660,24 @@ if (count($name_parts) >= 2) {
             </div>
         </div>
     </header>
+
+    <!-- Mensajes de éxito -->
+    <?php if (!empty($success_message)): ?>
+        <div class="toast success" style="position: fixed; top: 5rem; right: 1rem; background: var(--white); padding: 1rem 1.5rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-2xl); display: flex; align-items: center; gap: 0.75rem; z-index: 9999; animation: slideInRight 0.3s ease-out; border-left: 4px solid var(--success);">
+            <i class="fas fa-check-circle" style="color: var(--success); font-size: 1.25rem;"></i>
+            <span><?php echo htmlspecialchars($success_message); ?></span>
+        </div>
+        <script>
+            // Auto-ocultar el mensaje después de 5 segundos
+            setTimeout(() => {
+                const toast = document.querySelector('.toast.success');
+                if (toast) {
+                    toast.style.animation = 'slideInRight 0.3s ease-out reverse';
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 5000);
+        </script>
+    <?php endif; ?>
 
     <!-- Main Content -->
     <main class="portal-main">

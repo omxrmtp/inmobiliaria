@@ -125,43 +125,62 @@ function authenticateUser($email, $password) {
 // ============================================
 
 /**
- * Registra un nuevo usuario
+ * Registra un nuevo usuario en el sistema
  * 
  * @param array $data Datos del usuario (name, email, phone, password)
  * @return int|false ID del usuario creado o false si falla
  */
 function registerUser($data) {
-    // TODO: Implementar tu lógica de registro
-    
-    /*
-    Ejemplo de implementación:
-    
-    $conn = tu_funcion_de_conexion();
-    
-    // Verificar si el email ya existe
-    $check = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $check->execute([$data['email']]);
-    if ($check->rowCount() > 0) {
-        return false; // Email ya existe
+    try {
+        $pdo = getDBConnection();
+        
+        // Iniciar transacción
+        $pdo->beginTransaction();
+        
+        // Separar nombre y apellido
+        $name_parts = explode(' ', trim($data['name']), 2);
+        $nombre = $name_parts[0];
+        $apellido = isset($name_parts[1]) ? $name_parts[1] : '';
+        
+        // Insertar en tabla contactos
+        $stmt = $pdo->prepare("
+            INSERT INTO contactos (nombre, apellido, correo, telefono, tipo, fecha_creacion, estado) 
+            VALUES (?, ?, ?, ?, 'CLIENTE', NOW(), 'ACTIVO')
+        ");
+        
+        $stmt->execute([
+            $nombre,
+            $apellido,
+            $data['email'],
+            $data['phone']
+        ]);
+        
+        $contacto_id = $pdo->lastInsertId();
+        
+        // Insertar contraseña en tabla cliente_passwords
+        $stmt = $pdo->prepare("
+            INSERT INTO cliente_passwords (contacto_id, password_web, fecha_creacion) 
+            VALUES (?, ?, NOW())
+        ");
+        
+        $stmt->execute([
+            $contacto_id,
+            $data['password'] // Ya debe estar hasheado
+        ]);
+        
+        // Confirmar transacción
+        $pdo->commit();
+        
+        return $contacto_id;
+        
+    } catch (PDOException $e) {
+        // Revertir transacción en caso de error
+        if (isset($pdo) && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log("Error en registerUser: " . $e->getMessage());
+        return false;
     }
-    
-    // Insertar nuevo usuario
-    $stmt = $conn->prepare("
-        INSERT INTO usuarios (nombre, email, telefono, password, role, created_at) 
-        VALUES (?, ?, ?, ?, 'cliente', NOW())
-    ");
-    
-    $stmt->execute([
-        $data['name'],
-        $data['email'],
-        $data['phone'],
-        $data['password'] // Ya debe estar hasheado
-    ]);
-    
-    return $conn->lastInsertId();
-    */
-    
-    return false;
 }
 
 // ============================================
@@ -175,20 +194,24 @@ function registerUser($data) {
  * @return bool True si existe, false si no
  */
 function emailExists($email) {
-    // TODO: Implementar tu lógica de verificación
-    
-    /*
-    Ejemplo de implementación:
-    
-    $conn = tu_funcion_de_conexion();
-    
-    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $stmt->execute([$email]);
-    
-    return $stmt->rowCount() > 0;
-    */
-    
-    return false;
+    try {
+        $pdo = getDBConnection();
+        
+        $stmt = $pdo->prepare("
+            SELECT id FROM contactos 
+            WHERE correo = ? 
+            AND (tipo = 'CLIENTE' OR tipo = 'LEAD')
+            LIMIT 1
+        ");
+        
+        $stmt->execute([$email]);
+        
+        return $stmt->rowCount() > 0;
+        
+    } catch (PDOException $e) {
+        error_log("Error en emailExists: " . $e->getMessage());
+        return false;
+    }
 }
 
 // ============================================
