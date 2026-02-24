@@ -30,7 +30,7 @@ try {
         exit();
     }
 
-    // Buscar primero en tabla CLIENTES (esquema actual)
+    // Buscar en tabla CONTACTOS (donde se guardan los registros)
     $sql = "SELECT 
                 c.id,
                 c.nombre,
@@ -39,32 +39,14 @@ try {
                 c.telefono,
                 cp.password_web,
                 cp.activo,
-                'CLIENTE' AS tipo
-            FROM clientes c
+                c.tipo
+            FROM contactos c
             LEFT JOIN cliente_passwords cp ON c.id = cp.contacto_id
             WHERE c.correo = :email
+            AND (c.tipo = 'CLIENTE' OR c.tipo = 'LEAD')
             LIMIT 1";
 
     $cliente = fetchOne($sql, ['email' => $email]);
-
-    // Si no encuentra en clientes, buscar en LEADS
-    if (!$cliente) {
-        $sql = "SELECT 
-                    l.id,
-                    l.nombre,
-                    l.apellido,
-                    l.correo,
-                    l.telefono,
-                    cp.password_web,
-                    cp.activo,
-                    'LEAD' AS tipo
-                FROM leads l
-                LEFT JOIN cliente_passwords cp ON l.id = cp.contacto_id
-                WHERE l.correo = :email
-                LIMIT 1";
-
-        $cliente = fetchOne($sql, ['email' => $email]);
-    }
 
     if (!$cliente) {
         http_response_code(401);
