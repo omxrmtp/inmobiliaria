@@ -10,7 +10,7 @@ if (file_exists(__DIR__ . '/../src/config/settings.php')) {
 }
 
 if (file_exists(__DIR__ . '/../src/config/database.php')) {
-	require_once __DIR__ . '/../src/config/database.php';
+	require_once __DIR__ . '/../config/database.php';
 }
 
 // Proteger la salida para que siempre devolvamos JSON válido
