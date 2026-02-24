@@ -159,7 +159,7 @@ function registerUser($data) {
         
         // Insertar contraseña en tabla cliente_passwords
         $stmt = $pdo->prepare("
-            INSERT INTO cliente_passwords (contacto_id, password_web, fecha_creacion) 
+            INSERT INTO cliente_passwords (contacto_id, password_web, creado_en) 
             VALUES (?, ?, NOW())
         ");
         
